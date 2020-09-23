@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 
 data = [
     (2, 2, 0.0),
@@ -16,9 +17,12 @@ def plot(weights, bias, data):
     plt.plot(x_l, [(weights[0] * x + bias)/(-weights[1]) for x in x_l])
     plt.show()
 
-weights = [0.0, 1.0]
-bias = 0.5
-learning_rate = 1
+weights = [
+    random.random(), 
+    random.random(),
+]
+bias = random.random()
+learning_rate = 0.2
 
 x_l = np.linspace(-4, 4, 100)
 
@@ -31,7 +35,6 @@ def update(weights, bias, error, x):
     weights_n = [w + learning_rate * error * x[i] for i, w in enumerate(weights)]
     return weights_n, bias_n
 
-print("w1, w2, b")
 wrong = 1
 while wrong:
     wrong = 0

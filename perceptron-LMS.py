@@ -3,39 +3,45 @@ import numpy as np
 import random
 
 data = [
-    (1, -1, 3, 0.0),
-    (1, -2, 2, 0.0),
-    (1, -3, 1, 0.0),
-    (1, 2, -2, 1.0),
-    (1, 0, 1, 1.0),
-    (1, -1, 1, 1.0)
+    (1, -1, 3, 0),
+    (1, -2, 2, 0),
+    (1, -3, 1, 0),
+    (1, 2, -2, 1),
+    (1, 0, 1, 1),
+    (1, -1, 1, 1)
 ]
 
 def plot(weights, data):
     plt.figure()
     plt.axis([-4,4,-4,4])
-    plt.scatter([x[1] for x in data[:3]], [x[2] for x in data[:3]], color="green")
-    plt.scatter([x[1] for x in data[3:]], [x[2] for x in data[3:]], color="red")
+    for point in data:
+        color = "green"
+        if point[-1] == 1:
+            color = "red"
+        plt.scatter(point[1], point[2], color=color)
     plt.plot(x_l, [(weights[0] + weights[1] * x)/(-weights[2]) for x in x_l])
     plt.show()
 
-weights = [0.2, 0.0, 1.0]
+weights = [
+    random.random(), # bias
+    random.random(), # w1
+    random.random(), # w2
+]
 learning_rate = 0.2
 
 x_l = np.linspace(-4, 4, 100)
 
 def predict(weights, x):
-    return sum([ w * x[i] for i, w in enumerate(weights)])
+    return sum([w * x[i] for i, w in enumerate(weights)])
 
 def update(weights, error, x):
     weights_n = [w + learning_rate * error * x[i] for i, w in enumerate(weights)]
     return weights_n
 
-print("w1, w2, b")
 wrong = 1
 while wrong:
     plot(weights, data)
-    print(weights)
+    print(",".join([str(w) for w in weights]))
     wrong = 0
     data_n = data[:]
     random.shuffle(data_n)
