@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 
+# x0 is always 1 -> bias on the first position of the weights matrix
 data = [
     (1, -1, 3, [0,0]),
     (1, -2, 2, [0,0]),
@@ -54,6 +55,3 @@ while wrong:
             err = [c - pred_cls[i] for i, c in enumerate(x[-1])]
             weights = update(weights, err, x)
             wrong += 1
-
-
-

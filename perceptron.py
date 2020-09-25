@@ -18,7 +18,7 @@ def plot(weights, bias, data):
     plt.show()
 
 weights = [
-    random.random(), 
+    random.random(),
     random.random(),
 ]
 bias = random.random()
@@ -45,5 +45,3 @@ while wrong:
         if prediction != x[-1]:
             wrong += 1
             weights, bias = update(weights, bias, x[-1] - prediction, x)
-
-
