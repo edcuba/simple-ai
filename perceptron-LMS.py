@@ -12,6 +12,11 @@ data = [
     (1, -1, 1, 1)
 ]
 
+def shuffle(input_data):
+    data_n = input_data[:]
+    random.shuffle(data_n)
+    return data_n
+
 def plot(weights, data):
     plt.figure()
     plt.axis([-4,4,-4,4])
@@ -36,19 +41,26 @@ def predict(weights, x):
     return sum([w * x[i] for i, w in enumerate(weights)])
 
 def update(weights, error, x):
-    weights_n = [w + learning_rate * error * x[i] for i, w in enumerate(weights)]
-    return weights_n
+    return [w + learning_rate * error * x[i] for i, w in enumerate(weights)]
 
-wrong = 1
-while wrong:
+def get_error(weights, data):
+    activations = [predict(weights, x) for x in data]
+    predictions = [1 if a >= 0 else 0 for a in activations]
+    return sum([(x[-1] - a)**2 if p != x[-1] else 0 for x, p, a in zip(data, predictions, activations)])
+
+error = get_error(weights, data)
+print(",".join([str(w) for w in weights]))
+print("Error:", error)
+plot(weights, data)
+
+while error > 0:
+    for x in shuffle(data):
+        activation = predict(weights, x)
+        prediction = 1 if activation >= 0 else 0
+        if prediction != x[-1]:
+            weights = update(weights, x[-1] - activation, x)
+    error = get_error(weights, data)
+
     plot(weights, data)
     print(",".join([str(w) for w in weights]))
-    wrong = 0
-    data_n = data[:]
-    random.shuffle(data_n)
-    for x in data_n:
-        prediction = predict(weights, x)
-        pred_cls = 1.0 if prediction >= 0.0 else 0.0
-        if pred_cls != x[-1]:
-            weights = update(weights, x[-1] - prediction, x)
-            wrong += 1
+    print("Error:", error)

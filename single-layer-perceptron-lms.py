@@ -12,6 +12,11 @@ data = [
     (1, 2, 1, [1,0])
 ]
 
+def shuffle(input_data):
+    data_n = input_data[:]
+    random.shuffle(data_n)
+    return data_n
+
 def plot(weights, data):
     plt.figure()
     plt.axis([-4,4,-4,4])
@@ -38,20 +43,34 @@ def predict(weights, x):
     return [sum([w * x[i] for i, w in enumerate(W)]) for W in weights]
 
 def update(weights, error, x):
-    weights_n = [[w + learning_rate * error[iw] * x[i] for i, w in enumerate(W)] for iw, W in enumerate(weights)]
-    return weights_n
+    return [[w + learning_rate * error[iw] * x[i] for i, w in enumerate(W)] for iw, W in enumerate(weights)]
 
-wrong = 1
-while wrong:
-    plot(weights, data)
-    print(",".join([str(w) for w in weights]))
-    wrong = 0
-    data_n = data[:]
-    random.shuffle(data_n)
-    for x in data_n:
+def get_error(weights, data):
+    err = 0
+    for x in shuffle(data):
         prediction = predict(weights, x)
-        pred_cls = [1.0 if p >= 0.0 else 0.0 for p in prediction]
-        if pred_cls != x[-1]:
-            err = [c - pred_cls[i] for i, c in enumerate(x[-1])]
-            weights = update(weights, err, x)
-            wrong += 1
+        for i, c in enumerate(x[-1]):
+            pred_cls = 1.0 if prediction[i] >= 0.0 else 0.0
+            if c != pred_cls:
+                err += (c - prediction[i])**2
+    return err
+
+error = get_error(weights, data)
+print(",".join([str(w) for w in weights]))
+print("Error:", error)
+plot(weights, data)
+
+while error > 0:
+    for x in shuffle(data):
+        prediction = predict(weights, x)
+        err = [0, 0]
+        for i, c in enumerate(x[-1]):
+            pred_cls = 1.0 if prediction[i] >= 0.0 else 0.0
+            if c != pred_cls:
+                err[i] = c - prediction[i]
+        weights = update(weights, err, x)
+    error = get_error(weights, data)
+
+    print(",".join([str(w) for w in weights]))
+    print("Error:", error)
+    plot(weights, data)
