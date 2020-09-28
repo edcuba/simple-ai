@@ -52,7 +52,6 @@ while wrong:
     wrong = 0
     for x in shuffle(data):
         prediction = predict(weights, x)
-        if prediction != x[-1]:
-            err = [c - p for c, p in zip(x[-1], prediction)]
-            weights = update(weights, err, x)
-            wrong += 1
+        err = [c - p for c, p in zip(x[-1], prediction)]
+        weights = update(weights, err, x)
+        wrong += sum([abs(e) for e in err])

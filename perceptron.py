@@ -43,7 +43,6 @@ while wrong:
     plot(weights, data)
     print(",".join([str(w) for w in weights]))
     for x in shuffle(data):
-        prediction = predict(weights, x)
-        if prediction != x[-1]:
-            wrong += 1
-            weights = update(weights, x[-1] - prediction, x)
+        err = x[-1] - predict(weights, x)
+        weights = update(weights, err, x)
+        wrong += abs(err)
