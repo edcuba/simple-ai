@@ -1,6 +1,6 @@
 # Simple AI models in Python
 
-Simple implementations of core AI Machine Learning models in plain Python.
+Simple implementations of core AI Machine Learning models in plain Python, Tensorflow, and PyTorch.
 
 ## How to run
 
@@ -11,6 +11,6 @@ pip install -r requirements.txt
 
 Run the algorithms
 ```
-python perceptron.py
-
+python plain/perceptron.py
+python pytorch/mnist.py
 ```
