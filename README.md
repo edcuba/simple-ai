@@ -1,2 +1,16 @@
-Example code of perceptron learning for Seminar in Artificial Intelligence and Machine Learning at University of Zurich.
+# Simple AI models in Python
 
+Simple implementations of core AI Machine Learning models in plain Python.
+
+## How to run
+
+Install the dependencies
+```
+pip install -r requirements.txt
+```
+
+Run the algorithms
+```
+python perceptron.py
+
+```
