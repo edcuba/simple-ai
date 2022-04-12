@@ -123,7 +123,7 @@ class CategoricalClassifier:
 
             accuracy, _ = self.accuracy(X, T)
 
-            if e % 1000 == 0:
+            if e % 100 == 0 or e == epochs - 1:
                 if accuracy is not None:
                     print(f"Epoch {e} loss {loss:1.4f} accuracy {accuracy:1.4f}")
                 else:
@@ -157,7 +157,7 @@ model = CategoricalClassifier(X.shape[1], T.shape[1], nodes=10)
 
 
 # Use classic gradient descent (batch size = dataset size)
-model.fit(X, T, epochs=3000, eta=0.001, batch_size=T.shape[0])
+model.fit(X, T, epochs=1000, eta=0.001, batch_size=T.shape[0])
 accuracy, correct = model.accuracy(X, T)
 
 print(f"Accuracy {accuracy:1.4f}, Correct {correct} of {T.shape[0]}")
