@@ -132,10 +132,6 @@ class CategoricalClassifier:
             history.append(loss)
         return history
 
-    def loss(self, T, Y):
-        # Mean Squared Error
-        return np.mean((T - Y)**2)
-
     def sigm(self, x):
         # Logistic function applied in the hidden layer
         return 1. / (1. + np.exp(-x))
